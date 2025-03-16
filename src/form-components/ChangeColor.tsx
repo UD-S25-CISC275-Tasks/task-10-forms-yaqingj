@@ -1,50 +1,77 @@
 import React, { useState } from "react";
 
 export function ChangeColor(): React.JSX.Element {
-    const [color, setColor] = useState<string>("red");
+    const [chosenColor, setChosenColor] = useState<string>("red");
+
     const colors = [
         "red",
-        "green",
         "blue",
+        "green",
         "yellow",
         "orange",
         "purple",
         "pink",
         "brown",
     ];
+    const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChosenColor(event.target.value);
+    };
 
     return (
         <div>
-            <div>
-                {colors.map((colorOption, index) => (
+            {colors.map((color) => (
+                <div
+                    key={color}
+                    style={{
+                        display: "inline-block",
+                        marginRight: "10px",
+                    }}
+                >
+                    <input
+                        type="radio"
+                        id={color}
+                        name="color"
+                        value={color}
+                        checked={chosenColor === color}
+                        onChange={handleColorChange}
+                        style={{
+                            marginRight: "5px",
+                        }}
+                    />
                     <label
-                        key={index}
-                        style={{ display: "inline-block", marginRight: "10px" }}
+                        htmlFor={color}
+                        style={{
+                            color: "black",
+                            backgroundColor: color,
+                            padding: "5px 10px",
+                            borderRadius: "5px",
+                            border: "1px solid #ccc",
+                        }}
                     >
-                        <input
-                            type="radio"
-                            name="color"
-                            value={colorOption}
-                            checked={color === colorOption}
-                            onChange={() => {
-                                setColor(colorOption);
-                            }}
-                        />
-                        {colorOption}
+                        {color}
                     </label>
-                ))}
-            </div>
-
+                </div>
+            ))}
             <div
                 data-testid="colored-box"
                 style={{
-                    backgroundColor: color,
-                    color: "black",
-                    padding: "20px",
                     marginTop: "20px",
+                    padding: "20px",
+                    backgroundColor: chosenColor,
+                    color: "black",
                 }}
             >
-                You have chosen {color}
+                You have chosen{" "}
+                <span
+                    style={{
+                        fontWeight: "bold",
+                        backgroundColor: "white",
+                        color: chosenColor,
+                        padding: "2px 5px",
+                    }}
+                >
+                    {chosenColor}
+                </span>
             </div>
         </div>
     );
